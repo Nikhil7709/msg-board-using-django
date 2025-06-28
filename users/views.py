@@ -36,6 +36,25 @@ class RegisterAPIView(APIView):
         )
 
 
+class UserProfileAPIView(APIView):
+    """Get current logged-in user's profile"""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return APIResponse(
+            success=True,
+            message="User profile fetched",
+            data={
+                "id": user.id,
+                "email": user.email,
+                "is_admin": user.is_admin,
+                "is_active": user.is_active
+            },
+            status_code=status.HTTP_200_OK
+        )
+
+
 class SendOTPAPIView(APIView):
     """APIView to send OTP to user's email."""
     permission_classes = [permissions.AllowAny]
