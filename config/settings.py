@@ -27,9 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
 # Application definition
 
 DJANGO_APPS = [
@@ -45,6 +42,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'django_extensions',
     'import_export',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 PROJECT_APPS = [
