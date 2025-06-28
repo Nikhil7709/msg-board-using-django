@@ -34,3 +34,46 @@ class MessageListCreateAPIView(generics.ListCreateAPIView):
             status_code=status.HTTP_201_CREATED,
         )
 
+
+class MessageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """API view to retrieve, update, or delete a message."""
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return APIResponse(
+            success=True,
+            message="Message fetched successfully",
+            data=serializer.data,
+            status_code=status.HTTP_200_OK
+        )
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return APIResponse(
+            success=True,
+            message="Message updated successfully",
+            data=serializer.data,
+            status_code=status.HTTP_200_OK
+        )
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.delete()
+        return APIResponse(
+            success=True,
+            message="Message deleted successfully",
+            data={},
+            status_code=status.HTTP_204_NO_CONTENT
+        )
+
