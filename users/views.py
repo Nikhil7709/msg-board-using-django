@@ -55,6 +55,30 @@ class UserProfileAPIView(APIView):
         )
 
 
+class LogoutAPIView(APIView):
+    """APIView to handle user logout by invalidating the refresh token."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data.get("refresh")
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return APIResponse(
+                success=True,
+                message="Logout successful",
+                data={},
+                status_code=status.HTTP_200_OK
+            )
+        except Exception as e:
+            return APIResponse(
+                success=False,
+                message="Logout failed",
+                data={},
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+
 class SendOTPAPIView(APIView):
     """APIView to send OTP to user's email."""
     permission_classes = [permissions.AllowAny]
