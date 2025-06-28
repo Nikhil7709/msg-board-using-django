@@ -1,0 +1,16 @@
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Django development
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+.env
