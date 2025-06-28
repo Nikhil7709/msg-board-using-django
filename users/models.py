@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from django.utils import timezone
+from django.contrib.auth.hashers import make_password, check_password
+from datetime import timedelta
 class UserManager(BaseUserManager):
     """
     Custom manager for User model.
@@ -44,4 +46,30 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+class OTP(models.Model):
+    """
+    Model to store One-Time Passwords (OTPs) for users.
+    """
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    otp_hashed = models.CharField(max_length=128)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.user.email} - OTP created at {self.created_at}'
+
+    def set_otp(self, raw_otp):
+        self.otp_hashed = make_password(raw_otp)
+
+    def verify_otp(self, raw_otp):
+        if not self.is_valid():
+            return False
+        return check_password(raw_otp, self.otp_hashed)
+
+    def is_valid(self):
+        return timezone.now() <= self.created_at + timedelta(minutes=15)
 
