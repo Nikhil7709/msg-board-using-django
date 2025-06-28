@@ -58,6 +58,8 @@ class OTP(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'OTP'
+        verbose_name_plural = '03. OTPs'
 
     def __str__(self):
         return f'{self.user.email} - OTP created at {self.created_at}'
