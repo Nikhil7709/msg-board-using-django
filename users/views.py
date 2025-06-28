@@ -7,6 +7,7 @@ from libs.response import APIResponse
 from django.utils.crypto import get_random_string
 from users.models import OTP
 from django.core.mail import send_mail
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
@@ -78,3 +79,41 @@ class SendOTPAPIView(APIView):
             status_code=status.HTTP_200_OK
         )
 
+
+class VerifyOTPAPIView(APIView):
+    """APIView to verify the OTP sent to user's email."""
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        email = request.data.get("email")
+        otp = request.data.get("otp")
+
+        try:
+            user = User.objects.get(email=email)
+            otp_obj = OTP.objects.filter(user=user).latest('created_at')
+        except (User.DoesNotExist, OTP.DoesNotExist):
+            return APIResponse(
+                success=False,
+                message="Invalid user or OTP",
+                data={},
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        if otp_obj.verify_otp(otp):
+            refresh = RefreshToken.for_user(user)
+            token_data = {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token)
+            }
+            return APIResponse(
+                success=True,
+                message="OTP verified successfully",
+                data=token_data,
+                status_code=status.HTTP_200_OK
+            )
+        return APIResponse(
+            success=False,
+            message="Invalid or expired OTP",
+            data={},
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
