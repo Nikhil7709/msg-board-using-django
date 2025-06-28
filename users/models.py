@@ -33,6 +33,11 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = '01. Users'
+        ordering = ['id']
+
     def __str__(self):
         return self.email
 

@@ -14,6 +14,8 @@ class Message(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = 'Message'
+        verbose_name_plural = '02. Messages'
 
     def __str__(self):
         return f'{self.user.email[:15]}: {self.content[:30]}'
