@@ -1,6 +1,6 @@
 # Django DRF Message Board
 
-A modern, API-driven message board built with Django, Django REST Framework, and PostgreSQL.  
+A, API-driven message board built with Django, Django REST Framework, and PostgreSQL.  
 Supports user registration, OTP-based login with JWT authentication.
 ---
 
@@ -13,7 +13,6 @@ Supports user registration, OTP-based login with JWT authentication.
   - Post messages (authenticated users).
   - View all messages.
   - Edit and delete only your own messages.
-  - Responsive UI using HTML + JavaScript (fetch/AJAX) that consumes the API.
 - **Admin Panel**: Django admin for user and message management.
 - **Swagger/OpenAPI**: API documentation available at `/swagger/`.
 - **Dockerized**: Easy setup with Docker and Docker Compose.
