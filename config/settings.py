@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     'django_extensions',
     'import_export',
     'rest_framework_simplejwt.token_blacklist',
+    'drf_yasg',
 ]
 
 PROJECT_APPS = [

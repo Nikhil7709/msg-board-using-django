@@ -12,6 +12,7 @@ django-extensions = "*"
 django-import-export = "*"
 python-dotenv = "*"
 gunicorn = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
