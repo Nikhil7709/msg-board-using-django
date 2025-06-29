@@ -146,7 +146,7 @@ MIT License
 
 ## Author
 
-- [Your Name](https://github.com/Nikhil7709)
+- [Nikhil Jade](https://github.com/Nikhil7709)
 
 ---
 
