@@ -11,6 +11,7 @@ psycopg2-binary = "*"
 django-extensions = "*"
 django-import-export = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [dev-packages]
 
