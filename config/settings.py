@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,11 +94,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'drfmsgdb',
-        'USER': 'drfuser',
-        'PASSWORD': 'drfpass',
+        'NAME': os.environ.get('DB_NAME', 'drfmsgdb'),
+        'USER': os.environ.get('DB_USER', 'drfuser'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'drfpass'),
         'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': '5432',
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 

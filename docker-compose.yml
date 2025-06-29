@@ -8,8 +8,8 @@ services:
       - static_volume:/code/staticfiles
     ports:
       - "8000:8000"
-    environment:
-      - DB_HOST=db
+    env_file:
+      - .env
     depends_on:
       - db
 
@@ -18,9 +18,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      POSTGRES_DB: drfmsgdb
-      POSTGRES_USER: drfuser
-      POSTGRES_PASSWORD: drfpass
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
 
 volumes:
   postgres_data:
